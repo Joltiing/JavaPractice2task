@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<people>
+    <family id="0">
+        <human id="0">
+            <name>Павел</name>
+            <surname>Шило</surname>
+            <age>31</age>
+            <sex>male</sex>
+        </human>
+        <human id="1">
+            <name>Мария</name>
+            <surname>Шило</surname>
+            <age>31</age>
+            <sex>female</sex>
+        </human>
+    </family>
+    <family id="1">
+        <human id="2">
+            <name>Алексей</name>
+            <surname>Боби</surname>
+            <age>54</age>
+            <sex>male</sex>
+        </human>
+    </family>
+</people>
