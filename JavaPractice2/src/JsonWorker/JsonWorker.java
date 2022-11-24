@@ -1,37 +1,41 @@
 package JsonWorker;
+
 import Entities.Human;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
 
-import java.io.FileWriter;
-import java.io.IOException;
+import java.io.FileReader;
 import java.util.ArrayList;
 
 public class JsonWorker {
-    public static void InsertHumansToJson(String filePath, ArrayList<Human> humans){
-        var jsonList=new JSONArray();
-        for (var human : humans) {
-            var jsonObj=new JSONObject();
+    public static ArrayList<Human> readPeople(String path){
+        JSONParser parser = new JSONParser();
 
-            jsonObj.put("name",human._name);
-            jsonObj.put("surname",human._surname);
-            jsonObj.put("age",human._age);
-            jsonObj.put("sex",human._sex);
+        try(FileReader reader = new FileReader(path)) {
+            var obj = parser.parse(reader);
+            var humanList = (JSONArray) obj;
+            var outList = new ArrayList<Human>();
+            humanList.forEach(human -> outList.add(parseHumanObject((JSONObject)human)));
 
-            jsonList.add(jsonObj);
-        }
-
-        try (var file = new FileWriter(filePath)) {
-            file.write(Beautify(jsonList.toJSONString()));
-        } catch (IOException e) {
-            e.printStackTrace();
+            return outList;
+        } catch (Exception e) {
+            throw new RuntimeException(e);
         }
     }
 
-    private static String Beautify(String json) throws IOException {
-        ObjectMapper mapper = new ObjectMapper();
-        Object obj = mapper.readValue(json, Object.class);
-        return mapper.writerWithDefaultPrettyPrinter().writeValueAsString(obj);
+    private static Human parseHumanObject(JSONObject human)
+    {
+        var outObj = new Human();
+
+        outObj._name= (String) human.get("name");
+
+        outObj._surname= (String) human.get("surname");
+
+        outObj._sex= (String) human.get("sex");
+
+        outObj._age= Integer.parseInt(human.get("age").toString());
+
+        return outObj;
     }
 }
