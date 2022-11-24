@@ -1,56 +1,75 @@
 package XmlWorker;
 
 import Entities.Human;
-import org.xml.sax.SAXException;
+import org.w3c.dom.Document;
 
 import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.parsers.ParserConfigurationException;
-import java.io.IOException;
+import javax.xml.transform.Transformer;
+import javax.xml.transform.TransformerException;
+import javax.xml.transform.TransformerFactory;
+import javax.xml.transform.dom.DOMSource;
+import javax.xml.transform.stream.StreamResult;
+import java.io.FileOutputStream;
+import java.io.OutputStream;
 import java.util.ArrayList;
 
 public class XmlWorker {
-    public static ArrayList<Human> GetPeopleFromXml(String filePath) throws ParserConfigurationException, IOException, SAXException {
-        var documentBuilder = DocumentBuilderFactory.newInstance().newDocumentBuilder();
-        var xmlDoc = documentBuilder.parse(filePath);
-        var root = xmlDoc.getDocumentElement();
-        var rootNodes = root.getChildNodes();
+    public static void insertHumanToXml(Human[] humanList, String path) {
+        try {
+            var documentBuilder = DocumentBuilderFactory.newInstance().newDocumentBuilder();
+            var xmlDoc = documentBuilder.newDocument();
+            var root=xmlDoc.createElement("humans");
+            xmlDoc.appendChild(root);
 
-        var humanList = new ArrayList<Human>();
+            ArrayList<org.w3c.dom.Element> maleList = new ArrayList<>();
+            ArrayList<org.w3c.dom.Element>  femaleList = new ArrayList<>();
 
-        for (var rootNodeIndex = 0; rootNodeIndex < rootNodes.getLength(); rootNodeIndex++){
-            //search for "family" node
-            if(rootNodes.item(rootNodeIndex).getNodeName() == "family") {
+            for (var human : humanList) {
+                var el = xmlDoc.createElement("human");
 
-                var familyNode = rootNodes.item(rootNodeIndex).getChildNodes();
-                //search for humans in family
-                for (var familyNodeIndex = 0; familyNodeIndex < familyNode.getLength(); familyNodeIndex++){
-                    if(familyNode.item(familyNodeIndex).getNodeName() == "human") {
-                        var humanNodesList = familyNode.item(familyNodeIndex).getChildNodes();
-                        var human = new Human();
-                        //filling human
-                        for(var humanNodeIndex = 0; humanNodeIndex < humanNodesList.getLength(); humanNodeIndex++){
-                            if(humanNodesList.item(humanNodeIndex).getNodeName() == "name"){
-                                human._name=humanNodesList.item(humanNodeIndex).getTextContent();
-                            }
+                el.setAttribute("name",human._name);
+                el.setAttribute("surname",human._surname);
+                el.setAttribute("age", String.valueOf(human._age));
+                el.setAttribute("sex",human._sex);
 
-                            if(humanNodesList.item(humanNodeIndex).getNodeName() == "surname"){
-                                human._surname=humanNodesList.item(humanNodeIndex).getTextContent();
-                            }
+                if(human._sex.equals("male")){
+                    maleList.add(el);
+                }
 
-                            if(humanNodesList.item(humanNodeIndex).getNodeName() == "age"){
-                                human._age = Integer.parseInt(humanNodesList.item(humanNodeIndex).getTextContent());
-                            }
-
-                            if(humanNodesList.item(humanNodeIndex).getNodeName() == "sex"){
-                                human._sex = humanNodesList.item(humanNodeIndex).getTextContent();
-                            }
-                        }
-
-                        humanList.add(human);
-                    }
+                if(human._sex.equals("female")){
+                    femaleList.add(el);
                 }
             }
+
+            var males = xmlDoc.createElement("males");
+
+            for (var el:maleList) {
+                males.appendChild(el);
+            }
+
+            root.appendChild(males);
+
+            var females = xmlDoc.createElement("females");
+
+            for (var el:femaleList) {
+                females.appendChild(el);
+            }
+
+            root.appendChild(females);
+
+            FileOutputStream output = new FileOutputStream(path);
+            writeXml(xmlDoc, output);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
         }
-        return humanList;
+    }
+
+    private static void writeXml(Document doc,OutputStream output) throws TransformerException {
+        TransformerFactory transformerFactory = TransformerFactory.newInstance();
+        Transformer transformer = transformerFactory.newTransformer();
+        DOMSource source = new DOMSource(doc);
+        StreamResult result = new StreamResult(output);
+
+        transformer.transform(source, result);
     }
 }
