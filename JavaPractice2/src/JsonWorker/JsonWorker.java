@@ -1,9 +1,11 @@
 package JsonWorker;
+
 import Entities.Human;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
 
+import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -23,15 +25,39 @@ public class JsonWorker {
         }
 
         try (var file = new FileWriter(filePath)) {
-            file.write(Beautify(jsonList.toJSONString()));
+            file.write(jsonList.toJSONString());
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
-    private static String Beautify(String json) throws IOException {
-        ObjectMapper mapper = new ObjectMapper();
-        Object obj = mapper.readValue(json, Object.class);
-        return mapper.writerWithDefaultPrettyPrinter().writeValueAsString(obj);
+    public static ArrayList<Human> readPeople(String path){
+        JSONParser parser = new JSONParser();
+
+        try(FileReader reader = new FileReader(path)) {
+            var obj = parser.parse(reader);
+            var humanList = (JSONArray) obj;
+            var outList = new ArrayList<Human>();
+            humanList.forEach(human -> outList.add(parseHumanObject((JSONObject)human)));
+
+            return outList;
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    private static Human parseHumanObject(JSONObject human)
+    {
+        var outObj = new Human();
+
+        outObj._name= (String) human.get("name");
+
+        outObj._surname= (String) human.get("surname");
+
+        outObj._sex= (String) human.get("sex");
+
+        outObj._age= Integer.parseInt(human.get("age").toString());
+
+        return outObj;
     }
 }

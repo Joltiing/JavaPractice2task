@@ -1,16 +1,56 @@
-[ {
-  "surname" : "Шило",
-  "sex" : "male",
-  "name" : "Павел",
-  "age" : 31
-}, {
-  "surname" : "Шило",
-  "sex" : "female",
-  "name" : "Мария",
-  "age" : 31
-}, {
-  "surname" : "Боби",
-  "sex" : "male",
-  "name" : "Алексей",
-  "age" : 54
-} ]
+[
+  {
+    "surname": "Шило",
+    "sex": "male",
+    "name": "Павел",
+    "age": 31
+  },
+  {
+    "surname": "Шило",
+    "sex": "female",
+    "name": "Мария",
+    "age": 31
+  },
+  {
+    "surname": "Шило",
+    "sex": "male",
+    "name": "Марк",
+    "age": 1
+  },
+  {
+    "surname": "Шило",
+    "sex": "female",
+    "name": "Марианна",
+    "age": 10
+  },
+  {
+    "surname": "Шило",
+    "sex": "female",
+    "name": "Маргарита",
+    "age": 0
+  },
+  {
+    "surname": "Боби",
+    "sex": "male",
+    "name": "Алексей",
+    "age": 54
+  },
+  {
+    "surname": "Боби",
+    "sex": "female",
+    "name": "Мария",
+    "age": 31
+  },
+  {
+    "surname": "Боби",
+    "sex": "male",
+    "name": "Алкесандр",
+    "age": 1
+  },
+  {
+    "surname": "Боби",
+    "sex": "male",
+    "name": "Игнат",
+    "age": 1
+  }
+]

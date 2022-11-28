@@ -13,12 +13,48 @@
             <age>31</age>
             <sex>female</sex>
         </human>
+        <human id="3">
+            <name>Марк</name>
+            <surname>Шило</surname>
+            <age>1</age>
+            <sex>male</sex>
+        </human>
+        <human id="4">
+            <name>Марианна</name>
+            <surname>Шило</surname>
+            <age>10</age>
+            <sex>female</sex>
+        </human>
+        <human id="4">
+            <name>Маргарита</name>
+            <surname>Шило</surname>
+            <age>0</age>
+            <sex>female</sex>
+        </human>
     </family>
     <family id="1">
         <human id="2">
             <name>Алексей</name>
             <surname>Боби</surname>
             <age>54</age>
+            <sex>male</sex>
+        </human>
+        <human id="5">
+            <name>Мария</name>
+            <surname>Боби</surname>
+            <age>31</age>
+            <sex>female</sex>
+        </human>
+        <human id="6">
+            <name>Алкесандр</name>
+            <surname>Боби</surname>
+            <age>1</age>
+            <sex>male</sex>
+        </human>
+        <human id="7">
+            <name>Игнат</name>
+            <surname>Боби</surname>
+            <age>1</age>
             <sex>male</sex>
         </human>
     </family>
